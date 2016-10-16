@@ -339,10 +339,6 @@ static void walk_dir ( DRunModePrivateData *pd, const char *root, const char *di
         if ( file->d_name[0] == '.' ) {
             continue;
         }
-        // Skip files not ending on .desktop.
-        if ( !g_str_has_suffix ( file->d_name, ".desktop" ) ) {
-            continue;
-        }
         switch ( file->d_type )
         {
         case DT_LNK:
@@ -372,6 +368,11 @@ static void walk_dir ( DRunModePrivateData *pd, const char *root, const char *di
         switch ( file->d_type )
         {
         case DT_REG:
+            // Skip files not ending on .desktop.
+            if ( !g_str_has_suffix ( file->d_name, ".desktop" ) ) {
+                break;
+            }
+
             read_desktop_file ( pd, root, filename );
             break;
         case DT_DIR:
